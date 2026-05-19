@@ -9,9 +9,9 @@ def buscar_archivos():
 
     for archivo in os.listdir():
         if archivo.endswith(".npy"):
-            archivos.append(archivo)
-    return archivos        
-
+            archivos.append(archivo)      
+    return archivos
+            
 def imprimir_opciones(lista_archivos):
     for i in range(len(lista_archivos)):
         numero = i+1
@@ -48,6 +48,15 @@ datos_senal = cargar_senal(archivo_elegido)
 datos_mediana = calcular_mediana(datos_senal)
 datos_media = calcular_media(datos_senal)
 
+# Funciones para mostrar las señales
+"""
+def senal_original(event):
+    linea.set_ydata(datos_senal)    
+    linea.set_label("Señal original")  
+    texto_box.set_text("Original")     
+    ax.legend()                       
+    plt.draw()      """  #Si quieres añadimos esta funcion para añadir un boton de señal original
+
 def mostrar_mediana(event):
     linea.set_ydata(datos_mediana)    
     linea.set_label("Mediana móvil")  
@@ -58,18 +67,46 @@ def mostrar_mediana(event):
 def mostrar_media(event):
     linea.set_ydata(datos_media)    
     linea.set_label("Media móvil")  
-    texto_box.set_text("Media")     
+    texto_box.set_text("Media")  #Podriamos sacar esta linea junto con la de mediana
+
     ax.legend()                       
     plt.draw()
 
 fig, ax = plt.subplots()
 
+# Tamaño de la gráfica
+plt.subplots_adjust(top= 0.93)
+plt.subplots_adjust(bottom= 0.2)
+
 linea, = ax.plot(datos_senal, label="Señal Original")
 
 texto_box = ax.text(0.05, 0.95, "Señal: Original", transform=ax.transAxes)
-ax.set_title("grafico señal")
+ax.set_title("Gráfico Señal")
 ax.grid(True)
 ax.legend()
 print("¡Preparando ventana del gráfico!")
-plt.show()
 
+
+
+# -----------------
+# Botones
+# -----------------
+
+ax_btn1 = plt.axes([0.15, 0.02, 0.2, 0.07])
+ax_btn2 = plt.axes([0.65, 0.02, 0.2, 0.07])
+
+btn_mediana = Button(ax_btn1, "Mediana móvil")
+btn_media = Button(ax_btn2, "Media móvil")
+
+btn_mediana.on_clicked(mostrar_mediana)
+btn_media.on_clicked(mostrar_media)
+texto_box = ax.text(
+        0.02,
+        0.95,
+        "",
+        transform=ax.transAxes,
+        verticalalignment="top",
+        bbox=dict(boxstyle="round", facecolor="white", alpha=0.4)
+    )
+
+plt.show()
