@@ -47,3 +47,29 @@ archivo_elegido = imprimir_opciones(archivos_encontrados)
 datos_senal = cargar_senal(archivo_elegido)
 datos_mediana = calcular_mediana(datos_senal)
 datos_media = calcular_media(datos_senal)
+
+def mostrar_mediana(event):
+    linea.set_ydata(datos_mediana)    
+    linea.set_label("Mediana móvil")  
+    texto_box.set_text("Mediana")     
+    ax.legend()                       
+    plt.draw()
+
+def mostrar_media(event):
+    linea.set_ydata(datos_media)    
+    linea.set_label("Media móvil")  
+    texto_box.set_text("Media")     
+    ax.legend()                       
+    plt.draw()
+
+fig, ax = plt.subplots()
+
+linea, = ax.plot(datos_senal, label="Señal Original")
+
+texto_box = ax.text(0.05, 0.95, "Señal: Original", transform=ax.transAxes)
+ax.set_title("grafico señal")
+ax.grid(True)
+ax.legend()
+print("¡Preparando ventana del gráfico!")
+plt.show()
+
